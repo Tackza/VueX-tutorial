@@ -1,6 +1,7 @@
 <template>
   <div>
-    {{ $store.state.count }}
+    <p>{{getEventById(3)}} </p>
+    <h2>{{getTodo}} </h2>
     <div>
         <button @click="minus">minus</button>
     </div>
@@ -8,6 +9,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
     name : 'Text2',
     methods: {
@@ -15,6 +17,12 @@ export default {
             this.$store.dispatch('actionMinusCount')
         }
     },
+    computed : {
+      ...mapGetters(['getEventById']),
+      getTodo(){
+        return this.$store.getters.getsTodo
+      }
+    }
 };
 </script>
 
