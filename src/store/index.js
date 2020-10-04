@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import EventService from "@/services/EventService";
 
 Vue.use(Vuex);
 
@@ -28,10 +29,12 @@ export default new Vuex.Store({
     setCount(state, value) {
       state.count = value;
     },
-    actionAddCountByNumber(state, value) { 
-      
-      state.count += value
-    }
+    actionAddCountByNumber(state, value) {
+      state.count += value;
+    },
+    ADD_EVENT(state, event) {
+      state.events.push(event);
+    },
   },
   getters: {
     catLength: (state) => {
@@ -53,6 +56,11 @@ export default new Vuex.Store({
     },
     actionMinusCount(context) {
       context.commit("setCount", this.getters.getCount - 1);
+    },
+    createEvent({ commit }, event) {
+      return EventService.postEvent(event).then(() => {
+        commit("ADD_EVENT", event.data);
+      });
     },
   },
   modules: {},
